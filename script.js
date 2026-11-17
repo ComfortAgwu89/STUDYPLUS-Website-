@@ -144,6 +144,12 @@
   /* ---------- Scroll reveal ---------- */
   var revealEls = document.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window && !reduceMotion) {
+    // Only now is it safe to hide elements, because we are about to reveal them
+    document.documentElement.classList.add("reveal-ready");
+    // Safety net: if anything goes wrong, show everything after 2.5 seconds
+    setTimeout(function () {
+      revealEls.forEach(function (el) { el.classList.add("visible"); });
+    }, 2500);
     var revealObserver = new IntersectionObserver(function (entries, obs) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -236,5 +242,3 @@
     });
   }
 })();
-
-  
